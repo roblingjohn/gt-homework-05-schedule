@@ -1,22 +1,18 @@
+// displays current time in jumbotron 
 $("#currentDay").text(moment().format('dddd[,] MMMM Do YYYY'));
 
 var schedMemory = ""
 
+// loop for all time blocks 
 for (i = 9; i < 18; i++) {
+    // gets information from local storage for current block
     schedMemory = JSON.parse(localStorage.getItem(i));
-    console.log(schedMemory)
-    function setMemory() {
-        if (localStorage.getItem(i)===null) {
-            localStorage.setItem(i, JSON.stringify(""))
-        }
-    }
-    setMemory();
-    console.log
+    // sets variable for current block 
     var dataBlock = $("#dataBlock" + i);
-    // console.log(schedMemory.currentKey)
+    // writes data from local storage into current block 
     $(dataBlock).text(schedMemory)
+    // checks whether block is past, present, or future and sets style accordingly 
     if (dataBlock.attr("data-hour") === (moment().format('H'))) {
-        console.log(i)
         dataBlock.attr("class", "col-md-10 present")
     }
     else if (parseInt(dataBlock.attr("data-hour")) < parseInt((moment().format('H')))){
@@ -27,12 +23,10 @@ for (i = 9; i < 18; i++) {
     }
 }
 
-
+// sets data in textarea to local memory 
 $("i").on("click", function(){
     var currentRow = $(this).attr("data-hour");
     var currentText = $("#dataBlock" + currentRow).val();
-    console.log(currentRow)
-    console.log(currentText)
     localStorage.setItem([currentRow], JSON.stringify(currentText))
 }
 )
